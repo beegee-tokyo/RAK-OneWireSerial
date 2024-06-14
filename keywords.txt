@@ -1,0 +1,35 @@
+#######################################
+# Syntax Coloring Map for SoftwareSerial
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SoftwareSerial	KEYWORD1
+RakSNHub_Protocl_API	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+end	KEYWORD2
+read	KEYWORD2
+write	KEYWORD2
+available	KEYWORD2
+isListening	KEYWORD2
+overflow	KEYWORD2
+flush	KEYWORD2
+listen	KEYWORD2
+peek	KEYWORD2
+init	KEYWORD2
+process	KEYWORD2
+get	KEYWORD2
+set	KEYWORD2
+reboot	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

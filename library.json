@@ -1,0 +1,35 @@
+{
+	"name": "RAK13015",
+	"version": "0.0.1",
+	"keywords": [
+		"ADC",
+		"4-20mA",
+		"RS485",
+		"ModBus",
+		"RAKWireless",
+		"WisBlock",
+		"RAK13015"
+	],
+	"description": "RAKWireless library for RAK13015 industrial interface module",
+	"frameworks": [
+		"arduino"
+	],
+	"platforms": [
+		"*"
+	],
+	"headers": "RAK13015.h",
+	"license": "MIT",
+	"authors": [
+		{
+			"email": "bernd.giesecke@rakwireless.com",
+			"url": "https://rakwireless.com",
+			"maintainer": true,
+			"name": "Bernd Giesecke"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/RAKWireless/RAK13015"
+	},
+	"homepage": "https://rakwireless.com"
+}
