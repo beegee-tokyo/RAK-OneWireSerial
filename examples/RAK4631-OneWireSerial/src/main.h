@@ -11,10 +11,7 @@
 #include <Arduino.h>
 #include <Adafruit_TinyUSB.h> // for Serial
 
-#include <SoftwareHalfSerial.h>
-
-#include "onewire_master_api.h"
-#include "onewire_master_protocol.h"
+#include <RAK-OneWireSerial.h>
 
 // Debug output set to 0 to disable app debug output
 #ifndef MY_DEBUG

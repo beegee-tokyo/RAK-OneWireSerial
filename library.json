@@ -1,23 +1,19 @@
 {
-	"name": "RAK13015",
+	"name": "RAK-OneWireSerial",
 	"version": "0.0.1",
 	"keywords": [
-		"ADC",
-		"4-20mA",
-		"RS485",
-		"ModBus",
+		"OneWireSerial",
 		"RAKWireless",
-		"WisBlock",
-		"RAK13015"
+		"WisBlock"
 	],
-	"description": "RAKWireless library for RAK13015 industrial interface module",
+	"description": "This library provides functions to communicate over a one wire serial interface with slave modules. This protocol is used by RAK2560 SensorHub sensor probes and IO probes",
 	"frameworks": [
 		"arduino"
 	],
 	"platforms": [
 		"*"
 	],
-	"headers": "RAK13015.h",
+	"headers": "RAK-OneWireSerial.h",
 	"license": "MIT",
 	"authors": [
 		{
@@ -29,7 +25,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/RAKWireless/RAK13015"
+		"url": "https://github.com/beegee-tokyo/RAK-OneWireSerial"
 	},
 	"homepage": "https://rakwireless.com"
 }
