@@ -1,11 +1,7 @@
 #include <Arduino.h>
 #include <Adafruit_TinyUSB.h> // for Serial
 
-#include <SoftwareHalfSerial.h>
-
-#include "onewire_master_api.h"
-#include "onewire_master_protocol.h"
-
+#include <RAK-OneWireSerial.h>
 
 SoftwareHalfSerial mySerial(15); //Wire pin  P0.15
 

@@ -34,9 +34,12 @@
 typedef RET_S32 (*program_process)(U8 *data, U16 len);
 typedef RET_S32 (*command_process)(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye);
 
+/** RAK OneWire Protocol IPSO code table structure definition */
 typedef struct {
     U8 size;
 } rakipso_tbl_t;
+
+/** RAK OneWire process definition structure */
 typedef struct {
     program_process req;
     program_process rsp;
@@ -281,6 +284,12 @@ static const rakipso_tbl_t rakipso_tbl[] = {
         },
 };
 
+/**
+ * @brief PopCount, used to calculate the checksum
+ * 
+ * @param u value to get popcount
+ * @return unsigned popcount
+ */
 static unsigned builtin_popcount(unsigned u)
 {
     u = (u & 0x55555555) + ((u >> 1) & 0x55555555);
@@ -291,6 +300,13 @@ static unsigned builtin_popcount(unsigned u)
     return u;
 }
 
+/**
+ * @brief Calculate the checksum of the received data
+ * 
+ * @param data received data
+ * @param len length of received data
+ * @return U8 calculated checksum
+ */
 static U8 cal_chksum(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -311,6 +327,14 @@ static U8 cal_chksum(U8 *data, U16 len)
     return chsum;
 }
 
+/**
+ * @brief Simple memory compare
+ * 
+ * @param A pointer to source A as uint8_t array
+ * @param B pointer to source B as uint8_t array
+ * @param len length of array
+ * @return RET_S32 0 == identical, else position of difference
+ */
 static RET_S32 this_memcmp(U8 *A, U8 *B, U16 len)
 {
     for (U16 i = 0; i < len; i++) {
@@ -321,6 +345,14 @@ static RET_S32 this_memcmp(U8 *A, U8 *B, U16 len)
     return 0;
 }
 
+/**
+ * @brief Simple memory copy
+ *
+ * @param A pointer to destination as uint8_t array
+ * @param B pointer to source as uint8_t array
+ * @param len length of array
+ * @return RET_S32 always 0
+ */
 static RET_S32 this_memcpy(U8 *A, U8 *B, U16 len)
 {
     for (U16 i = 0; i < len; i++) {
@@ -328,6 +360,14 @@ static RET_S32 this_memcpy(U8 *A, U8 *B, U16 len)
     }
     return 0;
 }
+
+/**
+ * @brief Send request for Sensor data
+ * 
+ * @param data data to be sent
+ * @param len size of data
+ * @return RET_S32 always RET_OK
+ */
 static RET_S32 snhub_snsrdat_req_program(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -348,6 +388,13 @@ static RET_S32 snhub_snsrdat_req_program(U8 *data, U16 len)
     return RET_OK;
 }
 
+/**
+ * @brief Send request for provisioning data
+ *
+ * @param data data to be sent
+ * @param len size of data
+ * @return RET_S32 RET_ERROR if invalid request, else RET_OK
+ */
 static RET_S32 snhub_provision_req_program(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -426,6 +473,13 @@ static RET_S32 snhub_provision_req_program(U8 *data, U16 len)
     return RET_OK;
 }
 
+/**
+ * @brief Get response for sensor data
+ *
+ * @param data data to be sent
+ * @param len size of data
+ * @return RET_S32 always RET_OK
+ */
 static RET_S32 snhub_snsrdat_rsp_program(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -446,6 +500,13 @@ static RET_S32 snhub_snsrdat_rsp_program(U8 *data, U16 len)
     return RET_OK;
 }
 
+/**
+ * @brief Get response for parameter request
+ *
+ * @param data data to be sent
+ * @param len size of data
+ * @return RET_S32 always RET_OK
+ */
 static RET_S32 snhub_paramget_rsp_program(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -462,6 +523,15 @@ static RET_S32 snhub_paramget_rsp_program(U8 *data, U16 len)
     return RET_OK;
 }
 
+/**
+ * @brief Send request for parameter
+ *
+ * @param pid PID to be addressed
+ * @param sid SID to be addressed
+ * @param gset SNHUB_GS_GET = get parameter, SNHUB_GS_SET = set parameter
+ * @param ptye parameter type
+ * @return RET_S32 RET_ERROR if invalid request, else RET_OK
+ */
 static RET_S32 snhub_paramget_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
 {
     U8 pktBuff[BUFF_SIZE];
@@ -536,6 +606,15 @@ static RET_S32 snhub_paramget_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
     return RET_OK;
 }
 
+/**
+ * @brief Send request for provisioning
+ *
+ * @param pid PID to be addressed
+ * @param sid SID to be addressed
+ * @param gset SNHUB_GS_GET = get provisioning, SNHUB_GS_SET = set provisioning
+ * @param ptye parameter type
+ * @return RET_S32 RET_ERROR if invalid request, else RET_OK
+ */
 static RET_S32 snhub_provision_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
 {
     U8 pktBuff[BUFF_SIZE];
@@ -592,6 +671,16 @@ static RET_S32 snhub_provision_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
 
     return RET_OK;
 }
+
+/**
+ * @brief Send request for sensor data
+ *
+ * @param pid PID to be addressed
+ * @param sid SID to be addressed
+ * @param gset SNHUB_GS_GET = get sensor data
+ * @param ptye parameter type
+ * @return RET_S32 RET_ERROR if invalid request, else RET_OK
+ */
 
 static RET_S32 snhub_snsrdat_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
 {
@@ -650,6 +739,14 @@ static RET_S32 snhub_snsrdat_command(U8 pid, U8 sid, SNHUB_GS_E gset, U8 ptye)
     return RET_OK;
 }
 
+/**
+ * @brief Check sequence correctness
+ * calls SNHUBAPI_EVT_SEQ_ERR if sequence is not correct
+ * 
+ * @param data Pointer to data as uint8_t array
+ * @param len Length of data
+ * @return RET_S32 Always RE_OK
+ */
 static RET_S32 verify_sequence(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -672,6 +769,13 @@ static RET_S32 verify_sequence(U8 *data, U16 len)
     return RET_OK;
 }
 
+/**
+ * @brief Verify data length
+ *
+ * @param data data to be checked as uint8_t array
+ * @param len length of the data
+ * @return RET_S32 RET_OK = correct, RET_ERROR = wrong
+ */
 static RET_S32 verify_snhublen(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -691,6 +795,13 @@ static RET_S32 verify_snhublen(U8 *data, U16 len)
     return RET_ERROR;
 }
 
+/**
+ * @brief Get delimiter index
+ *
+ * @param data data to be checked as uint8_t array
+ * @param len length of the data
+ * @return RET_S32 index of delimiter or RET_ERROR if no delimiter was found
+ */
 static RET_S32 verify_delimter(U8 *data, U16 len)
 {
     for (U16 ofs = 0; ofs < len; ofs++) {
@@ -702,6 +813,13 @@ static RET_S32 verify_delimter(U8 *data, U16 len)
     return RET_ERROR;
 }
 
+/**
+ * @brief Verify if data is type SensorHub
+ *
+ * @param data data to be checked as uint8_t array
+ * @param len length of the data
+ * @return RET_S32 RET_OK if type is correct, else RET_ERROR
+ */
 static RET_S32 verify_rui3type(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -717,6 +835,13 @@ static RET_S32 verify_rui3type(U8 *data, U16 len)
     return RET_ERROR;
 }
 
+/**
+ * @brief Verify checksum
+ *
+ * @param data data to be checked as uint8_t array
+ * @param len length of the data
+ * @return RET_S32 RET_OK if correct, else RET_ERROR
+ */
 static RET_S32 verify_checksum(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -732,6 +857,14 @@ static RET_S32 verify_checksum(U8 *data, U16 len)
     return RET_ERROR;
 }
 
+/**
+ * @brief Verify action
+ * Calls event depending on action
+ *
+ * @param data data to be checked as uint8_t array
+ * @param len length of the data
+ * @return RET_S32 RET_OK if correct action, else RET_ERROR
+ */
 static RET_S32 verify_action(U8 *data, U16 len)
 {
     RUI3_Api_t *rui3_api = (RUI3_Api_t *)data;
@@ -761,6 +894,11 @@ static RET_S32 verify_action(U8 *data, U16 len)
     return ret;
 }
 
+/**
+ * @brief Initialize API
+ * 
+ * @param this_on_evt pointer to event handler function
+ */
 static void api_init(SNHub_Evt_t this_on_evt)
 {
     on_evt = this_on_evt;
@@ -768,6 +906,12 @@ static void api_init(SNHub_Evt_t this_on_evt)
     command_list[SNHUB_TYPE_PROVISION](PID_UNKNOW, 0, SNHUB_GS_SET, PLD_PROVI_TYPE_BOOT);
 }
 
+/**
+ * @brief Process received data
+ *
+ * @param msg received data to be processed as uint8_t array
+ * @param len length of the data
+ */
 static void api_process(U8 *msg, U16 len)
 {
     U16 dataLen = 0;
@@ -819,6 +963,10 @@ static void api_process(U8 *msg, U16 len)
     } while (0);
 }
 
+/**
+ * @brief SensorHub commands
+ * 
+ */
 static const command_process command_list[] = {
     [SNHUB_TYPE_WAKUP] = NULL,    [SNHUB_TYPE_PROVISION] = snhub_provision_command,
     [SNHUB_TYPE_PARAMSET] = NULL, [SNHUB_TYPE_SENDAT] = snhub_snsrdat_command,
@@ -830,6 +978,10 @@ static const command_process command_list[] = {
     [SNHUB_TYPE_ADC] = NULL,      [SNHUB_TYPE_DIO] = NULL,
 };
 
+/**
+ * @brief Sensorhub process list
+ * 
+ */
 static const protocol_process_t protocol_list[] = {
 
     [SNHUB_TYPE_WAKUP] = {.req = NULL, .rsp = NULL},
@@ -850,6 +1002,11 @@ static const protocol_process_t protocol_list[] = {
     [SNHUB_TYPE_DIO] = {.req = NULL, .rsp = NULL},
 };
 
+/**
+ * @brief Get sensor data
+ * 
+ * @param pid source PID of the data
+ */
 static void api_get_snsr_data(U8 pid)
 {
     if (pid == PID_MASTER) {
@@ -860,6 +1017,12 @@ static void api_get_snsr_data(U8 pid)
     CKTODO(command_list[SNHUB_TYPE_SENDAT])(pid, 0, SNHUB_GS_GET, PLD_SDATA_TPYE_SENDAT);
 }
 
+/**
+ * @brief Get sensor parameters
+ *
+ * @param pid source PID of the parameters
+ * @param sid source SID of the parameters
+ */
 static void api_get_snsr_param(U8 pid, U8 sid)
 {
     if (pid == PID_MASTER) {
@@ -870,6 +1033,14 @@ static void api_get_snsr_param(U8 pid, U8 sid)
     CKTODO(command_list[SNHUB_TYPE_PARAMGET])(pid, sid, SNHUB_GS_GET, PLD_PARMGSET_TYPE_SNSR_UPDATE);
 }
 
+/**
+ * @brief Set sensor parameters
+ *
+ * @param pid target
+ * @param sid target
+ * @param enb type of rule to be applied
+ * @param intv rule to be applied
+ */
 static void api_set_snsr_param(U8 pid, U8 sid, U8 enb, U32 intv)
 {
     if (pid == PID_MASTER) {
@@ -882,12 +1053,17 @@ static void api_set_snsr_param(U8 pid, U8 sid, U8 enb, U32 intv)
     CKTODO(command_list[SNHUB_TYPE_PARAMGET])(pid, sid, SNHUB_GS_SET, PLD_PARMGSET_TYPE_SNSR_UPDATE);
 }
 
+/**
+ * @brief Set sensor provisioning
+ * 
+ */
 static void api_set_provision()
 {
     menu.result = SNHUB_RES_BUSY;
     CKTODO(command_list[SNHUB_TYPE_PROVISION])(PID_UNKNOW, 0, SNHUB_GS_SET, PLD_PROVI_TYPE_BOOT);
 }
 
+/** API functions */
 const RakSNHub_Protocl_API_t RakSNHub_Protocl_API = {
     .init = api_init,
     .process = api_process,

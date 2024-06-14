@@ -125,7 +125,7 @@ void loop()
 	digitalWrite(WB_IO2, LOW);
 }
 
-static void onewire_evt(const uint8_t pid, const uint8_t sid, const SNHUBAPI_EVT_E eid, uint8_t *msg, uint16_t len)
+void onewire_evt(const uint8_t pid, const uint8_t sid, const SNHUBAPI_EVT_E eid, uint8_t *msg, uint16_t len)
 {
 	switch (eid)
 	{

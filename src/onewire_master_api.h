@@ -37,8 +37,10 @@ extern "C" {
 #define RET_S32 S32
 #endif
 
+/** IPSO data type offset to reduce to 8 bit data types used in CayenneLPP */
 #define RAK_IPSO_DATA_TYPE_OFFSET 3200
 
+/** Known data types */
 typedef enum {
     RAK_IPSO_DIGITAL_INPUT = (3200 - RAK_IPSO_DATA_TYPE_OFFSET),
     RAK_IPSO_DIGITAL_OUTPUT = (3201 - RAK_IPSO_DATA_TYPE_OFFSET),
@@ -100,6 +102,7 @@ typedef enum {
     RAK_IPSO_BINARYTLV = 0xF8,
 } RAK_IPSO_DEF_E;
 
+/** RAK OneWireProtocol event types */
 typedef enum {
     SNHUBAPI_EVT_RECV_REQ = 0,
     SNHUBAPI_EVT_RECV_RSP,
@@ -115,8 +118,10 @@ typedef enum {
     SNHUBAPI_EVT_MAX,
 } SNHUBAPI_EVT_E;
 
+/** Definition of RAK OneWire Protocol event handler */
 typedef void (*SNHub_Evt_t)(const U8 pid, const U8 sid, const SNHUBAPI_EVT_E eid, U8 *msg, U16 len);
 
+/** Definition of RAK OneWire Protocol API calls */
 typedef struct {
     void (*init)(SNHub_Evt_t onevt);
 
@@ -134,6 +139,7 @@ typedef struct {
     void (*reboot)(void);
 
 } ATT_PACKED RakSNHub_Protocl_API_t;
+
 extern const RakSNHub_Protocl_API_t RakSNHub_Protocl_API;
 
 #ifdef __cplusplus

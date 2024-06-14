@@ -31,6 +31,6 @@
 #define MYLOG(...)
 #endif
 
-static void onewire_evt(const uint8_t pid, const uint8_t sid, const SNHUBAPI_EVT_E eid, uint8_t *msg, uint16_t len);
+void onewire_evt(const uint8_t pid, const uint8_t sid, const SNHUBAPI_EVT_E eid, uint8_t *msg, uint16_t len);
 bool parse_payload(uint8_t *data, uint16_t data_len);
 #define LPP_CHANNEL_BATT_PERCENT 100 // Base Board
