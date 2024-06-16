@@ -17,6 +17,12 @@
 	"license": "MIT",
 	"authors": [
 		{
+			"email": "booker.chang@rakwireless.com",
+			"url": "https://rakwireless.com",
+			"maintainer": true,
+			"name": "Booker Chang"
+		},
+		{
 			"email": "bernd.giesecke@rakwireless.com",
 			"url": "https://rakwireless.com",
 			"maintainer": true,

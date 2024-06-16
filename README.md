@@ -40,7 +40,7 @@ For Sensor and IO probes that require a 12V supply voltage, an extra supply sour
 # Installation
 
 In Arduino IDE install the library from the library manager. The library can be found in the manager with the searcth term _**RAK-OneWireSerial**_.
-For manual installation download the library from [RAK13015](https://github.com/beegee-tokyo/RAK13015) as [ZIP file](https://github.com/beegee-tokyo/RAK13015/archive/refs/heads/main.zip). Unzip it and place the RUI3-Arduino-Library folder into the library directory.
+For manual installation download the library from [RAK-OneWireSerial](https://github.com/beegee-tokyo/RAK-OneWireSerial) as [ZIP file](https://github.com/beegee-tokyo/RAK-OneWireSerial/archive/refs/heads/main.zip). Unzip it and place the RUI3-Arduino-Library folder into the library directory.
 In Arduino IDE this is usually <arduinosketchfolder>/libraries/
 
 In PlatformIO install the library project dependencies by adding
