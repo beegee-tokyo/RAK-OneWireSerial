@@ -202,9 +202,9 @@ typedef struct {
 
 typedef struct {
     U8 alive;
-    SNHub_Api_Provision_t info;
     U8 snsrnum;
     U8 snsrlist[8];
+    SNHub_Api_Provision_t info;
 } ATT_PACKED SNHub_Record_t;
 
 typedef struct {
